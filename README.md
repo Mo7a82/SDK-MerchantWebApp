@@ -185,4 +185,4 @@ The WSDL files under `Web References` point at the placeholder host. To regenera
 
 ## Related work
 
-This SDK was built alongside the payment gateway integration proposed for the MCI unified self-service portal. In that design, payments go from the portal through payment gateway to the SADAD gateway and card acquirers.
+This SDK was built alongside the payment gateway integration proposed for the unified self-service portal. In that design, payments go from the portal through payment gateway to the SADAD gateway and card acquirers.
