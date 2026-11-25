@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication.SADADPmtMng
 {
-    public partial class pmtUploadWebForm : System.Web.UI.Page
+    public partial class pmtUploadWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,7 +18,7 @@ namespace MerchantWebApplication.SADADPmtMng
         protected void InvokeRequest_Button_Click(object sender, EventArgs e)
         {
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             SADADPmtUploadRq sadadBillLoadRq = new SADADPmtUploadRq();
             sadadBillLoadRq.RqUID = Input_RqUID.Text;
@@ -40,7 +40,7 @@ namespace MerchantWebApplication.SADADPmtMng
             sadadBillLoadRq.PmtMthdCD = Input_PmtMthdCD.Text;
 
             SADADPmtUploadRs sadadpmtUploadRs = program.pmtUpload(sadadBillLoadRq);
-            if (sadadpmtUploadRs == null) return;
+            if (sadadpmtUploadRs == null) { ShowError(program); return; }
             Label1.Text = sadadpmtUploadRs.sadadPmtUploadInfo.RqUID;
             Label2.Text = sadadpmtUploadRs.sadadPmtUploadInfo.StatusCD;
             Label3.Text = sadadpmtUploadRs.sadadPmtUploadInfo.TrnsID;

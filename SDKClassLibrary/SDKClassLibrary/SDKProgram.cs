@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SDKClassLibrary.CreditCardPmtMngRef;
 using SDKClassLibrary.SADADPmtMngRef;
 using SDKClassLibrary.PayPalPmtMngRef;
@@ -9,287 +7,228 @@ using Microsoft.Web.Services2.Security.Tokens;
 
 namespace SDKClassLibrary
 {
+    /// <summary>
+    /// Entry point of the merchant payment SDK. Each public method wraps one
+    /// payment gateway web service operation.
+    /// </summary>
+    /// <remarks>
+    /// Methods return null when a call fails. The reason is kept in LastError,
+    /// so callers can show or log it.
+    /// </remarks>
     public class SDKProgram
     {
+        private readonly GatewaySettings settings;
+        private readonly string endpointOverride;
+
+        /// <summary>Reads credentials and endpoints from appSettings.</summary>
+        public SDKProgram() : this(GatewaySettings.FromConfig(), null)
+        {
+        }
+
+        /// <summary>Uses the given settings for every call.</summary>
+        public SDKProgram(GatewaySettings settings) : this(settings, null)
+        {
+        }
+
+        /// <summary>
+        /// Uses the given settings, and sends every call to endpointOverride when it
+        /// is not empty. The test harness uses this to point at a test or production URL.
+        /// </summary>
+        public SDKProgram(GatewaySettings settings, string endpointOverride)
+        {
+            if (settings == null) throw new ArgumentNullException("settings");
+            this.settings = settings;
+            this.endpointOverride = GatewaySettings.IsBlank(endpointOverride) ? null : endpointOverride.Trim();
+        }
+
+        /// <summary>The error from the last failed call, or null after a successful one.</summary>
+        public Exception LastError { get; private set; }
+
         #region Credit Card Payment Management
-        public CCDigOrderRs submitDigitalOrder(CCDigOrderRq ccDigOrderRq)
+
+        public CCDigOrderRs submitDigitalOrder(CCDigOrderRq rq)
         {
-            CCDigOrderRs ccDigOrderRs = new CCDigOrderRs();
-
-            try
+            return Call<CCDigOrderRs>("Credit Card Submit Digital Order", delegate
             {
-                CreditCardPmtMng service = new CreditCardPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-                bool DueAmountSpecified = false;
-                if (ccDigOrderRq.DueAmount == 0)
-                    DueAmountSpecified = false;
-                else
-                    DueAmountSpecified = true;
-                ccDigOrderPmtInfo ccdigorderinfo = service.submitDigitalOrder(ccDigOrderRq.RqUID, ccDigOrderRq.ProfileCD, ccDigOrderRq.CustomerName, ccDigOrderRq.MerchTrnsRef, ccDigOrderRq.MerchOrderInfo, ccDigOrderRq.InvoiceNo, ccDigOrderRq.LangCD, ccDigOrderRq.DueAmount, DueAmountSpecified, ccDigOrderRq.ReturnURL, ccDigOrderRq.billingInfo);
-                System.Console.WriteLine("Call Service: Credit Card Submit Digital Order > Successfully");
-                ccDigOrderRs.ccdigorderpmtinfo = ccdigorderinfo;
-                return ccDigOrderRs;
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Call Service: Credit Card Submit Digital Order > Exception:" + ex.Message.ToString());
-                return null;
-            }
+                CreditCardPmtMng service = Prepare(new CreditCardPmtMng(), settings.CreditCardUrl);
+                CCDigOrderRs rs = new CCDigOrderRs();
+                rs.ccdigorderpmtinfo = service.submitDigitalOrder(rq.RqUID, rq.ProfileCD, rq.CustomerName,
+                    rq.MerchTrnsRef, rq.MerchOrderInfo, rq.InvoiceNo, rq.LangCD,
+                    rq.DueAmount, IsSet(rq.DueAmount), rq.ReturnURL, rq.billingInfo);
+                return rs;
+            });
         }
-        public CCCaptureRs capture(CCCaptureRq ccCaptureRq)
+
+        public CCCaptureRs capture(CCCaptureRq rq)
         {
-            CCCaptureRs ccCaptureRs = new CCCaptureRs();
-
-            try
+            return Call<CCCaptureRs>("Credit Card Capture", delegate
             {
-                CreditCardPmtMng service = new CreditCardPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-                
-                ccCaptureRs.cccapturePmtInfo = service.capture(ccCaptureRq.RqUID, ccCaptureRq.ProfileCD, ccCaptureRq.AcquireTrnsRef, ccCaptureRq.MerchTrnsRef,ccCaptureRq.InvoiceNo);
-                System.Console.WriteLine("Call Service: Credit Card Capture > Successfully");
-                return ccCaptureRs;
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Call Service: Credit Card Capture > Exception:" + ex.Message.ToString());
-                return null;
-            }
+                CreditCardPmtMng service = Prepare(new CreditCardPmtMng(), settings.CreditCardUrl);
+                CCCaptureRs rs = new CCCaptureRs();
+                rs.cccapturePmtInfo = service.capture(rq.RqUID, rq.ProfileCD, rq.AcquireTrnsRef,
+                    rq.MerchTrnsRef, rq.InvoiceNo);
+                return rs;
+            });
         }
-        public CCValidDigReceiptRs validateReceipt(CCValidDigReceiptRq ccValidDigReceiptRq)
+
+        public CCValidDigReceiptRs validateReceipt(CCValidDigReceiptRq rq)
         {
-            CCValidDigReceiptRs ccvalidDigReceiptRs = new CCValidDigReceiptRs();
-
-            try
+            return Call<CCValidDigReceiptRs>("Credit Card Validate Receipt", delegate
             {
-                CreditCardPmtMng service = new CreditCardPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-
-                ccvalidDigReceiptRs.ccvaliddigpmtinfo = service.validateReceipt(ccValidDigReceiptRq.RqUID, ccValidDigReceiptRq.ProfileCD, ccValidDigReceiptRq.BankRsQuery);
-                System.Console.WriteLine("Call Service: Credit Card validate Receipt > Successfully");
-                return ccvalidDigReceiptRs;
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Call Service: Credit Card validate Receipt > Exception:" + ex.Message.ToString());
-                return null;
-            }
+                CreditCardPmtMng service = Prepare(new CreditCardPmtMng(), settings.CreditCardUrl);
+                CCValidDigReceiptRs rs = new CCValidDigReceiptRs();
+                rs.ccvaliddigpmtinfo = service.validateReceipt(rq.RqUID, rq.ProfileCD, rq.BankRsQuery);
+                return rs;
+            });
         }
+
         #endregion
 
         #region SADAD Payment Management
-        public SADADBillLoadRs billLoad(SADADBillLoadRq sadadBillLoadRq)
+
+        /// <summary>Loads a bill into SADAD so the customer can pay it from any SADAD channel.</summary>
+        public SADADBillLoadRs billLoad(SADADBillLoadRq rq)
         {
-            SADADBillLoadRs sadadBillLoadRs = new SADADBillLoadRs();
-
-            try
+            return Call<SADADBillLoadRs>("SADAD Bill Load", delegate
             {
-                SADADPmtMng service = new SADADPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-                bool DueAmountSpecified = false;
-                if (sadadBillLoadRq.DueAmount == 0)
-                    DueAmountSpecified = false;
-                else
-                    DueAmountSpecified = true;
-                bool MaxAmountSpecified = false;
-                if (sadadBillLoadRq.MaxAmount == 0)
-                    MaxAmountSpecified = false;
-                else
-                    MaxAmountSpecified = true;
-                bool MinAmountSpecified = false;
-                if (sadadBillLoadRq.MinAmount == 0)
-                    MinAmountSpecified = false;
-                else
-                    MinAmountSpecified = true;
-                bool DueDtSpecified = false;
-                if (sadadBillLoadRq.DueDt == null)
-                    DueDtSpecified = false;
-                else
-                    DueDtSpecified = true;
-                bool ExpDtSpecified = false;
-                if (sadadBillLoadRq.ExpDt == null)
-                    ExpDtSpecified = false;
-                else
-                    ExpDtSpecified = true;
-                bool OpenDtSpecified = false;
-                if (sadadBillLoadRq.OpenDt == null)
-                    OpenDtSpecified = false;
-                else
-                    OpenDtSpecified = true;
-                bool CloseDtSpecified = false;
-                if (sadadBillLoadRq.CloseDt == null)
-                    CloseDtSpecified = false;
-                else
-                    CloseDtSpecified = true;
-
-                sadadBillLoadPmtInfo sadadbillLoadinfo = service.billLoad(sadadBillLoadRq.RqUID, sadadBillLoadRq.ProfileCD, sadadBillLoadRq.CustomerName, sadadBillLoadRq.MerchTrnsRef, sadadBillLoadRq.MerchOrderInfo, sadadBillLoadRq.MerchOrderAlias, sadadBillLoadRq.IsPartialPayment, sadadBillLoadRq.LangCD, sadadBillLoadRq.DueAmount, DueAmountSpecified, sadadBillLoadRq.MaxAmount, MaxAmountSpecified, sadadBillLoadRq.MinAmount, MinAmountSpecified, sadadBillLoadRq.InvoiceNo, sadadBillLoadRq.BillingAcct, sadadBillLoadRq.InvoiceRefInfo, sadadBillLoadRq.DueDt, DueDtSpecified, sadadBillLoadRq.ExpDt, ExpDtSpecified, sadadBillLoadRq.OpenDt, OpenDtSpecified, sadadBillLoadRq.CloseDt, CloseDtSpecified, sadadBillLoadRq.CustomerIDNo, sadadBillLoadRq.CustomerIDTypeCD, sadadBillLoadRq.InvoiceSttsCD, sadadBillLoadRq.BillCategory, sadadBillLoadRq.invoiceAdditionalInfoList, sadadBillLoadRq.billingInfo);
-                System.Console.WriteLine("Call Service: SADAD Bill Load > Successfully");
-                sadadBillLoadRs.sadadbillLoadinfo = sadadbillLoadinfo;
-                return sadadBillLoadRs;
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Call Service: SADAD Bill Load > Exception:" + ex.Message.ToString());
-                return null;
-            }
+                SADADPmtMng service = Prepare(new SADADPmtMng(), settings.SadadUrl);
+                SADADBillLoadRs rs = new SADADBillLoadRs();
+                rs.sadadbillLoadinfo = service.billLoad(rq.RqUID, rq.ProfileCD, rq.CustomerName,
+                    rq.MerchTrnsRef, rq.MerchOrderInfo, rq.MerchOrderAlias, rq.IsPartialPayment, rq.LangCD,
+                    rq.DueAmount, IsSet(rq.DueAmount), rq.MaxAmount, IsSet(rq.MaxAmount),
+                    rq.MinAmount, IsSet(rq.MinAmount), rq.InvoiceNo, rq.BillingAcct, rq.InvoiceRefInfo,
+                    rq.DueDt, IsSet(rq.DueDt), rq.ExpDt, IsSet(rq.ExpDt),
+                    rq.OpenDt, IsSet(rq.OpenDt), rq.CloseDt, IsSet(rq.CloseDt),
+                    rq.CustomerIDNo, rq.CustomerIDTypeCD, rq.InvoiceSttsCD, rq.BillCategory,
+                    rq.invoiceAdditionalInfoList, rq.billingInfo);
+                return rs;
+            });
         }
-        public SADADPmtUploadRs pmtUpload(SADADPmtUploadRq sadadPmtUploadRq)
+
+        /// <summary>
+        /// Uploads a billing invoice. It takes the same fields as billLoad and is used
+        /// by merchants whose invoices come from a billing system.
+        /// </summary>
+        public SADADBillLoadRs billingInvUpload(SADADBillLoadRq rq)
         {
-            SADADPmtUploadRs sadadPmtUploadRs = new SADADPmtUploadRs();
-
-            try
+            return Call<SADADBillLoadRs>("SADAD Billing Invoice Upload", delegate
             {
-                SADADPmtMng service = new SADADPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-                bool trnsAmountSpecified = false;
-                if (sadadPmtUploadRq.TrnsAmount == 0)
-                    trnsAmountSpecified = false;
-                else
-                    trnsAmountSpecified = true;
-                bool prcDtAmountSpecified = false;
-                if (sadadPmtUploadRq.PrcDt == null)
-                    prcDtAmountSpecified = false;
-                else
-                    prcDtAmountSpecified = true;
-                sadadPmtUploadPmtInfo sadadPmtLoadinfo = service.pmtUpload(sadadPmtUploadRq.RqUID, sadadPmtUploadRq.ProfileCD, sadadPmtUploadRq.InvoiceNo, sadadPmtUploadRq.MerchTrnsRef, sadadPmtUploadRq.AcquireTrnsRef, sadadPmtUploadRq.BillingAcct, sadadPmtUploadRq.TrnsAmount, trnsAmountSpecified, sadadPmtUploadRq.PrcDt, prcDtAmountSpecified, sadadPmtUploadRq.PmtRefInfo, sadadPmtUploadRq.CustomerIDNo, sadadPmtUploadRq.CustomerIDTypeCD, sadadPmtUploadRq.BankCD, sadadPmtUploadRq.BankBranchNo, sadadPmtUploadRq.PmtAccessChannel, sadadPmtUploadRq.District, sadadPmtUploadRq.PmtMthdCD);
-                System.Console.WriteLine("Call Service: SADAD Payment Upload > Successfully");
-                sadadPmtUploadRs.sadadPmtUploadInfo = sadadPmtLoadinfo;
-                return sadadPmtUploadRs;
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Call Service: SADAD Payment Upload > Exception:" + ex.Message.ToString());
-                return null;
-            }
+                SADADPmtMng service = Prepare(new SADADPmtMng(), settings.SadadUrl);
+                SADADBillLoadRs rs = new SADADBillLoadRs();
+                rs.sadadbillLoadinfo = service.billingInvUpload(rq.RqUID, rq.ProfileCD, rq.CustomerName,
+                    rq.MerchTrnsRef, rq.MerchOrderInfo, rq.MerchOrderAlias, rq.IsPartialPayment, rq.LangCD,
+                    rq.DueAmount, IsSet(rq.DueAmount), rq.MaxAmount, IsSet(rq.MaxAmount),
+                    rq.MinAmount, IsSet(rq.MinAmount), rq.InvoiceNo, rq.BillingAcct, rq.InvoiceRefInfo,
+                    rq.DueDt, IsSet(rq.DueDt), rq.ExpDt, IsSet(rq.ExpDt),
+                    rq.OpenDt, IsSet(rq.OpenDt), rq.CloseDt, IsSet(rq.CloseDt),
+                    rq.CustomerIDNo, rq.CustomerIDTypeCD, rq.InvoiceSttsCD, rq.BillCategory,
+                    rq.invoiceAdditionalInfoList, rq.billingInfo);
+                return rs;
+            });
         }
-        public string PaymentNotification()
+
+        /// <summary>Uploads a payment record against a SADAD bill.</summary>
+        public SADADPmtUploadRs pmtUpload(SADADPmtUploadRq rq)
         {
-            try
+            return Call<SADADPmtUploadRs>("SADAD Payment Upload", delegate
             {
-                SADADPmtMng service = new SADADPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-                
-                //sadadBillLoadPmtInfo sadadbillLoadinfo = service.billLoad("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
-                System.Console.WriteLine("Call Service: SADAD Payment Notification > Successfully");
-                //sadadPmtUploadRs.sadadPmtUploadInfo = sadadPmtLoadinfo;
-                return "success";
-            }
-            catch (Exception ex)
-            {
-                System.Console.WriteLine("Call Service: SADAD Payment Notification > Exception:" + ex.Message.ToString());
-                return null;
-            }
+                SADADPmtMng service = Prepare(new SADADPmtMng(), settings.SadadUrl);
+                SADADPmtUploadRs rs = new SADADPmtUploadRs();
+                rs.sadadPmtUploadInfo = service.pmtUpload(rq.RqUID, rq.ProfileCD, rq.InvoiceNo,
+                    rq.MerchTrnsRef, rq.AcquireTrnsRef, rq.BillingAcct,
+                    rq.TrnsAmount, IsSet(rq.TrnsAmount), rq.PrcDt, IsSet(rq.PrcDt),
+                    rq.PmtRefInfo, rq.CustomerIDNo, rq.CustomerIDTypeCD, rq.BankCD, rq.BankBranchNo,
+                    rq.PmtAccessChannel, rq.District, rq.PmtMthdCD);
+                return rs;
+            });
         }
+
         #endregion
 
         #region PayPal Payment Management
-        public PPDigOrderRs createPayment(PPDigOrderRq ppdigOrderRq)
-        {
-            PPDigOrderRs ppdigOrderRs = new PPDigOrderRs();
 
+        public PPDigOrderRs createPayment(PPDigOrderRq rq)
+        {
+            return Call<PPDigOrderRs>("PayPal Create Payment", delegate
+            {
+                PayPalPmtMng service = Prepare(new PayPalPmtMng(), settings.PayPalUrl);
+                PPDigOrderRs rs = new PPDigOrderRs();
+                rs.ppdigOrderPmtInfo = service.createPayment(rq.RqUID, rq.ProfileCD, rq.CustomerName,
+                    rq.MerchTrnsRef, rq.MerchOrderInfo, rq.InvoiceNo, rq.LangCD,
+                    rq.DueAmount, IsSet(rq.DueAmount), rq.ShippingAmount, IsSet(rq.ShippingAmount),
+                    rq.Tax, IsSet(rq.Tax), rq.CurrencyCD, rq.ApprovalURL, rq.CancelURL,
+                    rq.PPDigOrderItems, rq.billingInfo);
+                return rs;
+            });
+        }
+
+        public PPCaptureRs executePayment(PPCaptureRq rq)
+        {
+            return Call<PPCaptureRs>("PayPal Execute Payment", delegate
+            {
+                PayPalPmtMng service = Prepare(new PayPalPmtMng(), settings.PayPalUrl);
+                PPCaptureRs rs = new PPCaptureRs();
+                rs.ppcapturePmtInfo = service.executePayment(rq.RqUID, rq.ProfileCD, rq.MerchTrnsRef,
+                    rq.AcquireTrnsRef, rq.AcquireReceiptRef, rq.PayerID, rq.InvoiceNo);
+                return rs;
+            });
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private delegate T ServiceCall<T>();
+
+        private T Call<T>(string operation, ServiceCall<T> call) where T : class
+        {
+            LastError = null;
             try
             {
-                PayPalPmtMng service = new PayPalPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-                bool DueAmountSpecified = false;
-                if (ppdigOrderRq.DueAmount == 0)
-                    DueAmountSpecified = false;
-                else
-                    DueAmountSpecified = true;
-                bool ShippingAmountSpecified = false;
-                if (ppdigOrderRq.ShippingAmount == 0)
-                    ShippingAmountSpecified = false;
-                else
-                    ShippingAmountSpecified = true;
-                bool TaxAmountSpecified = false;
-                if (ppdigOrderRq.Tax == 0)
-                    TaxAmountSpecified = false;
-                else
-                    TaxAmountSpecified = true;
-                ppDigOrderPmtInfo ppdigOrderinfo = service.createPayment(ppdigOrderRq.RqUID, ppdigOrderRq.ProfileCD, ppdigOrderRq.CustomerName, ppdigOrderRq.MerchTrnsRef, ppdigOrderRq.MerchOrderInfo, ppdigOrderRq.InvoiceNo, ppdigOrderRq.LangCD, ppdigOrderRq.DueAmount, DueAmountSpecified, ppdigOrderRq.ShippingAmount, ShippingAmountSpecified, ppdigOrderRq.Tax, TaxAmountSpecified, ppdigOrderRq.CurrencyCD, ppdigOrderRq.ApprovalURL, ppdigOrderRq.CancelURL, ppdigOrderRq.PPDigOrderItems, ppdigOrderRq.billingInfo);
-                System.Console.WriteLine("Call Service: PayPal Create Payment > Successfully");
-                ppdigOrderRs.ppdigOrderPmtInfo = ppdigOrderinfo;
-                return ppdigOrderRs;
+                settings.Validate();
+                T result = call();
+                Console.WriteLine("Call Service: " + operation + " > Successfully");
+                return result;
             }
             catch (Exception ex)
             {
-                System.Console.WriteLine("Call Service: PayPal Create Payment > Exception:" + ex.Message.ToString());
+                LastError = ex;
+                Console.WriteLine("Call Service: " + operation + " > Exception: " + ex.Message);
                 return null;
             }
         }
-        public PPCaptureRs executePayment(PPCaptureRq ppcaptureRq)
+
+        /// <summary>Sets the endpoint and adds the WS-Security username token.</summary>
+        private T Prepare<T>(T service, string configuredUrl) where T : WebServicesClientProtocol
         {
-            PPCaptureRs ppcaptureRs = new PPCaptureRs();
-
-            try
+            if (endpointOverride != null)
             {
-                PayPalPmtMng service = new PayPalPmtMng();
-                string userName = "user";
-                //string userName = System.Configuration.ConfigurationManager.AppSettings["userName"].ToString();
-                string password = "21bd12dc183f740ee76f27b78eb39c8ad972a757";
-                //string password = System.Configuration.ConfigurationManager.AppSettings["password"].ToString();
-                UsernameToken token = new UsernameToken(userName, password, PasswordOption.SendPlainText);
-                service.RequestSoapContext.Security.MustUnderstand = false;
-                service.RequestSoapContext.Security.Tokens.Add(token);
-
-                ppCapturePmtInfo ppcaptureInfo = service.executePayment(ppcaptureRq.RqUID, ppcaptureRq.ProfileCD, ppcaptureRq.MerchTrnsRef, ppcaptureRq.AcquireTrnsRef, ppcaptureRq.AcquireReceiptRef, ppcaptureRq.PayerID, ppcaptureRq.InvoiceNo);
-                System.Console.WriteLine("Call Service: PayPal Execute Payment > Successfully");
-                ppcaptureRs.ppcapturePmtInfo = ppcaptureInfo;
-                return ppcaptureRs;
+                service.Url = endpointOverride;
             }
-            catch (Exception ex)
+            else if (!GatewaySettings.IsBlank(configuredUrl))
             {
-                System.Console.WriteLine("Call Service: PayPal Execute Payment > Exception:" + ex.Message.ToString());
-                return null;
+                service.Url = configuredUrl;
             }
+            // Otherwise keep the default URL from Properties/Settings.settings.
+
+            UsernameToken token = new UsernameToken(settings.UserName, settings.Password, settings.PasswordOption);
+            service.RequestSoapContext.Security.MustUnderstand = false;
+            service.RequestSoapContext.Security.Tokens.Add(token);
+            return service;
         }
+
+        // Optional numeric fields are sent only when they have a value.
+        private static bool IsSet(decimal value)
+        {
+            return value != 0;
+        }
+
+        // DateTime is a value type, so an unset field holds DateTime.MinValue, not null.
+        private static bool IsSet(DateTime value)
+        {
+            return value != DateTime.MinValue;
+        }
+
         #endregion
     }
 }

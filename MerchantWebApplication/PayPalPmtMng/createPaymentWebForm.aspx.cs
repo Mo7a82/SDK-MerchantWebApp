@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication.PayPalPmtMng
 {
-    public partial class createPaymentWebForm : System.Web.UI.Page
+    public partial class createPaymentWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -20,7 +20,7 @@ namespace MerchantWebApplication.PayPalPmtMng
         {
             
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             PPDigOrderRq ppDigOrderRq = new PPDigOrderRq();
             ppDigOrderRq.RqUID = Input_RqUID.Text;
@@ -32,6 +32,7 @@ namespace MerchantWebApplication.PayPalPmtMng
             ppDigOrderRq.InvoiceNo = Input_InvoiceNo.Text;
             ppDigOrderRq.DueAmount = (Input_DueAmount.Text.Trim()=="")? 0 : Convert.ToDecimal(Input_DueAmount.Text);
             ppDigOrderRq.Tax = (Input_Tax.Text.Trim() == "") ? 0 : Convert.ToDecimal(Input_Tax.Text);
+            ppDigOrderRq.ShippingAmount = (Input_ShippingAmount.Text.Trim() == "") ? 0 : Convert.ToDecimal(Input_ShippingAmount.Text);
             ppDigOrderRq.CurrencyCD = Input_CurrencyCD.Text;
             ppDigOrderRq.ApprovalURL = Input_ApprovalURL.Text;
             ppDigOrderRq.CancelURL = Input_CancelURL.Text;
@@ -69,7 +70,7 @@ namespace MerchantWebApplication.PayPalPmtMng
             ppDigOrderRq.billingInfo.InvoiceLineItemsList[1] = invoiceLineItem;
 
             PPDigOrderRs ppDigOrderRs = program.createPayment(ppDigOrderRq);
-            if (ppDigOrderRs==null) return;
+            if (ppDigOrderRs == null) { ShowError(program); return; }
             Label1.Text = ppDigOrderRs.ppdigOrderPmtInfo.RqUID;
             Label2.Text = ppDigOrderRs.ppdigOrderPmtInfo.StatusCD;
             Label3.Text = ppDigOrderRs.ppdigOrderPmtInfo.TrnsID;

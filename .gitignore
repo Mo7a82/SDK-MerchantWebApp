@@ -1,2 +1,25 @@
-# Google App Engine generated folder
-appengine-generated/
+# Visual Studio state
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build output
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+*.pdb
+*.cache
+
+# NuGet: packages/ is committed on purpose because WSE 2.0 is hard to find
+# on public feeds today. Ignore only extracted temp folders.
+*.nupkg.metadata
+
+# Local secrets (copy PaymentGateway.secrets.config.example and fill it in)
+PaymentGateway.secrets.config
+
+# OS files
+Thumbs.db
+.DS_Store

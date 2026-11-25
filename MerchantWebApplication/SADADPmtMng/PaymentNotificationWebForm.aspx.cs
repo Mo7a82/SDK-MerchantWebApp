@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication.SADADPmtMng
 {
-    public partial class PaymentNotificationWebForm : System.Web.UI.Page
+    public partial class PaymentNotificationWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {

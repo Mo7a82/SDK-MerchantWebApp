@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication
 {
-    public partial class validateReceiptWebForm : System.Web.UI.Page
+    public partial class validateReceiptWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,7 +19,7 @@ namespace MerchantWebApplication
         protected void InvokeRequest_Button_Click(object sender, EventArgs e)
         {
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             CCValidDigReceiptRq ccValidDigReceiptRq = new CCValidDigReceiptRq();
             ccValidDigReceiptRq.RqUID = Input_RqUID.Text;
@@ -27,7 +27,7 @@ namespace MerchantWebApplication
             ccValidDigReceiptRq.BankRsQuery = Input_BankRsQuery.Text;
 
             CCValidDigReceiptRs ccValidDigReceiptRs = program.validateReceipt(ccValidDigReceiptRq);
-            if (ccValidDigReceiptRs==null) return;
+            if (ccValidDigReceiptRs == null) { ShowError(program); return; }
             Label1.Text = ccValidDigReceiptRs.ccvaliddigpmtinfo.RqUID;
             Label2.Text = ccValidDigReceiptRs.ccvaliddigpmtinfo.StatusCD;
             Label3.Text = ccValidDigReceiptRs.ccvaliddigpmtinfo.IsDigReceiptValid;

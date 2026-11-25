@@ -49,6 +49,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="PaymentGateway.secrets.config.example" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -63,6 +64,7 @@
     <Content Include="PayPalPmtMng\createPaymentWebForm.aspx" />
     <Content Include="PayPalPmtMng\executePaymentWebForm.aspx" />
     <Content Include="SADADPmtMng\billLoadWebForm.aspx" />
+    <Content Include="SADADPmtMng\billingInvUploadWebForm.aspx" />
     <Content Include="SADADPmtMng\PaymentNotificationWebForm.aspx" />
     <Content Include="SADADPmtMng\pmtUploadWebForm.aspx" />
     <Content Include="Web.config" />
@@ -90,6 +92,7 @@
     <Compile Include="PayPalPmtMng\executePaymentWebForm.aspx.designer.cs">
       <DependentUpon>executePaymentWebForm.aspx</DependentUpon>
     </Compile>
+    <Compile Include="GatewayPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MerchantDefaultWebForm.aspx.cs">
       <DependentUpon>MerchantDefaultWebForm.aspx</DependentUpon>
@@ -111,6 +114,13 @@
     </Compile>
     <Compile Include="CreditCardPmtMng\validateReceiptWebForm.aspx.designer.cs">
       <DependentUpon>validateReceiptWebForm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SADADPmtMng\billingInvUploadWebForm.aspx.cs">
+      <DependentUpon>billingInvUploadWebForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SADADPmtMng\billingInvUploadWebForm.aspx.designer.cs">
+      <DependentUpon>billingInvUploadWebForm.aspx</DependentUpon>
     </Compile>
     <Compile Include="SADADPmtMng\billLoadWebForm.aspx.cs">
       <DependentUpon>billLoadWebForm.aspx</DependentUpon>

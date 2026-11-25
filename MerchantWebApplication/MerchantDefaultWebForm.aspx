@@ -29,13 +29,13 @@
 		.frmInput { font-family: Verdana; font-size: 1em; }
 		.intro { margin-left: -15px; }
     </style>
-    <title>PayNow Web Services</title>
+    <title>Payment Web Services</title>
 </head>
 <body>
     <div id="content">
       <p class="heading1">Credit Card Web Services</p><br />
       <div>
-          <p class="intro">The following operations are supported.  For a formal definition, please review the <a href="http://41.33.202.181/PS/CreditCardPmtMng?wsdl">Service Description</a>. </p>
+          <p class="intro">The following operations are supported.  For a formal definition, please review the <a href="https://paygateway.example.com/PS/CreditCardPmtMng?wsdl">Service Description</a>. </p>
               <ul>
               <li>
                 <a href="CreditCardPmtMng/submitDigitalOrderWebForm.aspx">Submit digital Order</a>
@@ -50,10 +50,13 @@
       </div>
 	  <p class="heading1">SADAD Web Services</p><br />
       <div>
-          <p class="intro">The following operations are supported.  For a formal definition, please review the <a href="http://41.33.202.181/PS/CreditCardPmtMng?wsdl">Service Description</a>. </p>
+          <p class="intro">The following operations are supported.  For a formal definition, please review the <a href="https://paygateway.example.com/PS/SADADPmtMng?wsdl">Service Description</a>. </p>
               <ul>
               <li>
                 <a href="SADADPmtMng/billLoadWebForm.aspx">Bill Load</a>
+              </li>
+              <li>
+                <a href="SADADPmtMng/billingInvUploadWebForm.aspx">Billing Invoice Upload</a>
               </li>
               <li>
                 <a href="SADADPmtMng/pmtUploadWebForm.aspx">Payment Upload</a>
@@ -67,7 +70,7 @@
       </div>
 	  <p class="heading1">PayPal Web Services</p><br />
       <div>
-          <p class="intro">The following operations are supported.  For a formal definition, please review the <a href="http://41.33.202.181/PS/CreditCardPmtMng?wsdl">Service Description</a>. </p>
+          <p class="intro">The following operations are supported.  For a formal definition, please review the <a href="https://paygateway.example.com/PS/PayPalPmtMng?wsdl">Service Description</a>. </p>
               <ul>
               <li>
                 <a href="PayPalPmtMng/createPaymentWebForm.aspx">Create Payment</a>

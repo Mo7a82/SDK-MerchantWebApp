@@ -26,7 +26,7 @@ namespace SDKClassLibrary.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://41.33.202.181:80/PS/CreditCardPmtMng")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://paygateway.example.com/PS/CreditCardPmtMng")]
         public string SDKClassLibrary_CreditCardPmtMngRef_CreditCardPmtMng {
             get {
                 return ((string)(this["SDKClassLibrary_CreditCardPmtMngRef_CreditCardPmtMng"]));
@@ -36,7 +36,7 @@ namespace SDKClassLibrary.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://41.33.202.181:80/PS/SADADPmtMng")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://paygateway.example.com/PS/SADADPmtMng")]
         public string SDKClassLibrary_SADADPmtMngRef_SADADPmtMng {
             get {
                 return ((string)(this["SDKClassLibrary_SADADPmtMngRef_SADADPmtMng"]));
@@ -46,7 +46,7 @@ namespace SDKClassLibrary.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://41.33.202.181:80/PS/PayPalPmtMng")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://paygateway.example.com/PS/PayPalPmtMng")]
         public string SDKClassLibrary_PayPalPmtMngRef_PayPalPmtMng {
             get {
                 return ((string)(this["SDKClassLibrary_PayPalPmtMngRef_PayPalPmtMng"]));

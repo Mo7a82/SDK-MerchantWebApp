@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreditCardPmtMngExtn.cs" />
+    <Compile Include="GatewaySettings.cs" />
     <Compile Include="PayPalPmtMngExtn.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -71,10 +72,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://41.33.202.181/PS/CreditCardPmtMng%3fwsdl">
+    <WebReferenceUrl Include="https://paygateway.example.com/PS/CreditCardPmtMng%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\CreditCardPmtMngRef\</RelPath>
-      <UpdateFromURL>http://41.33.202.181/PS/CreditCardPmtMng%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>https://paygateway.example.com/PS/CreditCardPmtMng%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -82,10 +83,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SDKClassLibrary_CreditCardPmtMngRef_CreditCardPmtMng</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://41.33.202.181/PS/PayPalPmtMng%3fwsdl">
+    <WebReferenceUrl Include="https://paygateway.example.com/PS/PayPalPmtMng%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\PayPalPmtMngRef\</RelPath>
-      <UpdateFromURL>http://41.33.202.181/PS/PayPalPmtMng%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>https://paygateway.example.com/PS/PayPalPmtMng%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -93,10 +94,10 @@
       <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
       <CachedSettingsPropName>SDKClassLibrary_PayPalPmtMngRef_PayPalPmtMng</CachedSettingsPropName>
     </WebReferenceUrl>
-    <WebReferenceUrl Include="http://41.33.202.181/PS/SADADPmtMng%3fwsdl">
+    <WebReferenceUrl Include="https://paygateway.example.com/PS/SADADPmtMng%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\SADADPmtMngRef\</RelPath>
-      <UpdateFromURL>http://41.33.202.181/PS/SADADPmtMng%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>https://paygateway.example.com/PS/SADADPmtMng%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

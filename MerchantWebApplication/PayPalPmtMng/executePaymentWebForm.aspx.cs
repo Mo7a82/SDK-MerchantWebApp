@@ -8,7 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication.PayPalPmtMng
 {
-    public partial class executePaymentWebForm : System.Web.UI.Page
+    public partial class executePaymentWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -18,7 +18,7 @@ namespace MerchantWebApplication.PayPalPmtMng
         protected void InvokeRequest_Button_Click(object sender, EventArgs e)
         {
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             PPCaptureRq ppcaptureRq = new PPCaptureRq();
             ppcaptureRq.RqUID = Input_RqUID.Text;
@@ -30,7 +30,7 @@ namespace MerchantWebApplication.PayPalPmtMng
             ppcaptureRq.InvoiceNo = Input_InvoiceNo.Text;
 
             PPCaptureRs ppcaptureRs = program.executePayment(ppcaptureRq);
-            if (ppcaptureRs==null) return;
+            if (ppcaptureRs == null) { ShowError(program); return; }
             Label1.Text = ppcaptureRs.ppcapturePmtInfo.RqUID;
             Label2.Text = ppcaptureRs.ppcapturePmtInfo.StatusCD;
             Label3.Text = ppcaptureRs.ppcapturePmtInfo.TrnsID;

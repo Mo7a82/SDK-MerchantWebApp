@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication
 {
-    public partial class captureWebForm : System.Web.UI.Page
+    public partial class captureWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,7 +19,7 @@ namespace MerchantWebApplication
         protected void InvokeRequest_Button_Click(object sender, EventArgs e)
         {
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             CCCaptureRq ccCaptureRq = new CCCaptureRq();
             ccCaptureRq.RqUID = Input_RqUID.Text;
@@ -28,7 +28,7 @@ namespace MerchantWebApplication
             ccCaptureRq.MerchTrnsRef = Input_MerchTrnsRef.Text;
 
             CCCaptureRs ccCaptureRs = program.capture(ccCaptureRq);
-            if (ccCaptureRs == null) return;
+            if (ccCaptureRs == null) { ShowError(program); return; }
             Label1.Text = ccCaptureRs.cccapturePmtInfo.RqUID;
             Label2.Text = ccCaptureRs.cccapturePmtInfo.StatusCD;
             Label3.Text = ccCaptureRs.cccapturePmtInfo.TrnsID;

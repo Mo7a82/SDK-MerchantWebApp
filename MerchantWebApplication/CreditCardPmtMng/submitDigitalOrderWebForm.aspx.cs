@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication
 {
-    public partial class submitDigitalOrderWebForm : System.Web.UI.Page
+    public partial class submitDigitalOrderWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -19,7 +19,7 @@ namespace MerchantWebApplication
         protected void InvokeRequest_Button_Click(object sender, EventArgs e)
         {
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             CCDigOrderRq ccDigOrderRq = new CCDigOrderRq();
             ccDigOrderRq.RqUID = Input_RqUID.Text;
@@ -34,7 +34,7 @@ namespace MerchantWebApplication
             ccDigOrderRq.billingInfo = new billingRqInfo();
 
             CCDigOrderRs ccDigOrderRs = program.submitDigitalOrder(ccDigOrderRq);
-            if (ccDigOrderRs==null) return;
+            if (ccDigOrderRs == null) { ShowError(program); return; }
             Label1.Text = ccDigOrderRs.ccdigorderpmtinfo.RqUID;
             Label2.Text = ccDigOrderRs.ccdigorderpmtinfo.StatusCD;
             Label3.Text = ccDigOrderRs.ccdigorderpmtinfo.FinalURL;

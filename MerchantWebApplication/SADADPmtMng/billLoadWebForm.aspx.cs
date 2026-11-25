@@ -9,7 +9,7 @@ using System.Web.UI.WebControls;
 
 namespace MerchantWebApplication.SADADPmtMng
 {
-    public partial class billLoadWebForm : System.Web.UI.Page
+    public partial class billLoadWebForm : GatewayPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -20,7 +20,7 @@ namespace MerchantWebApplication.SADADPmtMng
         {
             
             // When the button is clicked,
-            SDKProgram program = new SDKProgram();
+            SDKProgram program = CreateSdk();
 
             SADADBillLoadRq sadadBillLoadRq = new SADADBillLoadRq();
             sadadBillLoadRq.RqUID = Input_RqUID.Text;
@@ -64,7 +64,7 @@ namespace MerchantWebApplication.SADADPmtMng
             sadadBillLoadRq.billingInfo.InvoiceLineItemsList[0] = invoiceLineItem;
 
             SADADBillLoadRs sadadBillLoadRs = program.billLoad(sadadBillLoadRq);
-            if (sadadBillLoadRs==null) return;
+            if (sadadBillLoadRs == null) { ShowError(program); return; }
             Label1.Text = sadadBillLoadRs.sadadbillLoadinfo.RqUID;
             Label2.Text = sadadBillLoadRs.sadadbillLoadinfo.StatusCD;
             Label3.Text = sadadBillLoadRs.sadadbillLoadinfo.TrnsID;

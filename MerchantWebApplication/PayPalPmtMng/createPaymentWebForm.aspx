@@ -209,19 +209,19 @@
 						<tr>
 							<td class="auto-style3">User Name:</td>
 							<td>
-								<asp:TextBox ID="Input_userName" runat="server" Width="300px">user</asp:TextBox>
+								<asp:TextBox ID="Input_userName" runat="server" Width="300px"></asp:TextBox>
 							</td>
 						</tr>
 						<tr>
 							<td class="auto-style3">Password:</td>
 							<td>
-								<asp:TextBox ID="Input_password" runat="server" Width="300px">21bd12dc183f740ee76f27b78eb39c8ad972a757</asp:TextBox>
+								<asp:TextBox ID="Input_password" runat="server" Width="300px" TextMode="Password"></asp:TextBox>
 							</td>
 						</tr>
 						<tr>
 							<td class="auto-style3">Testing URL:</td>
 							<td>
-								<asp:TextBox ID="Input_testingURL" runat="server" Width="300px">http://41.33.202.181:80/PS/PayPalPmtMng</asp:TextBox>
+								<asp:TextBox ID="Input_testingURL" runat="server" Width="300px"></asp:TextBox>
 							</td>
 						</tr>
 						<tr>
