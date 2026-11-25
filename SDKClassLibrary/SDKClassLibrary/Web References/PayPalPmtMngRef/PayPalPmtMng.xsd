@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.ejada.com/" targetNamespace="http://www.ejada.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="PPCaptureRq" type="tns:PPCaptureRq" />
+  <xs:element name="PPCaptureRs" type="tns:PPCaptureRs" />
+  <xs:element name="PPDigOrderRq" type="tns:PPDigOrderRq" />
+  <xs:element name="PPDigOrderRs" type="tns:PPDigOrderRs" />
+  <xs:element name="billingRqInfo" type="tns:billingRqInfo" />
+  <xs:element name="billingRsInfo" type="tns:billingRsInfo" />
+  <xs:element name="invoiceLineItemInfo" type="tns:invoiceLineItemInfo" />
+  <xs:element name="invoiceLineItemsList" type="tns:invoiceLineItemsList" />
+  <xs:element name="ppCapturePmtInfo" type="tns:ppCapturePmtInfo" />
+  <xs:element name="ppDigOrderPmtInfo" type="tns:ppDigOrderPmtInfo" />
+  <xs:element name="psItem" type="tns:psItem" />
+  <xs:element name="psItemList" type="tns:psItemList" />
+  <xs:complexType name="PPCaptureRq">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfileCD" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireReceiptRef" type="xs:string" />
+      <xs:element minOccurs="0" name="PayerID" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PPCaptureRs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PPCapturePmtInfo" type="tns:ppCapturePmtInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ppCapturePmtInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="StatusCD" type="xs:string" />
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="TrnsID" type="xs:string" />
+      <xs:element minOccurs="0" name="TrnsAmount" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireMessage" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireDebugId" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingRsInfo" type="tns:billingRsInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="billingRsInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+      <xs:element minOccurs="0" name="PeriodCD" type="xs:string" />
+      <xs:element minOccurs="0" name="IssueDate" type="xs:string" />
+      <xs:element minOccurs="0" name="DueDate" type="xs:string" />
+      <xs:element minOccurs="0" name="IsInvoiceFinalized" type="xs:string" />
+      <xs:element minOccurs="0" name="FinalBatchRunId" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtInitiator" type="xs:string" />
+      <xs:element minOccurs="0" name="NetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Discount" type="xs:int" />
+      <xs:element minOccurs="0" name="AmountBF" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PPDigOrderRq">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfileCD" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerName" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchOrderInfo" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+      <xs:element minOccurs="0" name="LangCD" type="xs:string" />
+      <xs:element minOccurs="0" name="DueAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ShippingAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Tax" type="xs:decimal" />
+      <xs:element minOccurs="0" name="CurrencyCD" type="xs:string" />
+      <xs:element minOccurs="0" name="ApprovalURL" type="xs:string" />
+      <xs:element minOccurs="0" name="CancelURL" type="xs:string" />
+      <xs:element minOccurs="0" name="ItemList" type="tns:psItemList" />
+      <xs:element minOccurs="0" name="BillingRqInfo" type="tns:billingRqInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="psItemList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Item" type="tns:psItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="psItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Name" type="xs:string" />
+      <xs:element minOccurs="0" name="Quantity" type="xs:string" />
+      <xs:element minOccurs="0" name="Price" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="billingRqInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="InvTypCD" type="xs:string" />
+      <xs:element minOccurs="0" name="SrvCD" type="xs:string" />
+      <xs:element minOccurs="0" name="CusId" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtRespId" type="xs:string" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
+      <xs:element name="Discount" type="xs:int" />
+      <xs:element minOccurs="0" name="IsLumpSum" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtInitiator" type="xs:string" />
+      <xs:element minOccurs="0" name="Notes" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceLineItemsList" type="tns:invoiceLineItemsList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="invoiceLineItemsList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceLineItemInfo" type="tns:invoiceLineItemInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="invoiceLineItemInfo">
+    <xs:sequence>
+      <xs:element name="Quantity" type="xs:int" />
+      <xs:element minOccurs="0" name="Rate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Amount" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="PPDigOrderRs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="PPDigOrderPmtInfo" type="tns:ppDigOrderPmtInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ppDigOrderPmtInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="StatusCD" type="xs:string" />
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="TrnsID" type="xs:string" />
+      <xs:element minOccurs="0" name="FinalURL" type="xs:string" />
+      <xs:element minOccurs="0" name="TotalAmount" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireReceiptRef" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireMessage" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireDebugId" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingRsInfo" type="tns:billingRsInfo" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

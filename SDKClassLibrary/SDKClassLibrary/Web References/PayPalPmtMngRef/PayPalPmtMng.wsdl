@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://www.ejada.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="PayPalPmtMng" targetNamespace="http://www.ejada.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://41.33.202.181:80/PS/PayPalPmtMng?xsd=1" namespace="http://www.ejada.com/" />
+    </xsd:schema>
+  </types>
+  <message name="createPayment">
+    <part name="parameters" element="tns:PPDigOrderRq" />
+  </message>
+  <message name="createPaymentResponse">
+    <part name="parameters" element="tns:PPDigOrderRs" />
+  </message>
+  <message name="executePayment">
+    <part name="parameters" element="tns:PPCaptureRq" />
+  </message>
+  <message name="executePaymentResponse">
+    <part name="parameters" element="tns:PPCaptureRs" />
+  </message>
+  <portType name="PayPalPmtMng">
+    <operation name="createPayment">
+      <input wsam:Action="http://www.ejada.com/PayPalPmtMng/createPaymentRequest" message="tns:createPayment" />
+      <output wsam:Action="http://www.ejada.com/PayPalPmtMng/createPaymentResponse" message="tns:createPaymentResponse" />
+    </operation>
+    <operation name="executePayment">
+      <input wsam:Action="http://www.ejada.com/PayPalPmtMng/executePaymentRequest" message="tns:executePayment" />
+      <output wsam:Action="http://www.ejada.com/PayPalPmtMng/executePaymentResponse" message="tns:executePaymentResponse" />
+    </operation>
+  </portType>
+  <binding name="PayPalPmtMngPortBinding" type="tns:PayPalPmtMng">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="createPayment">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="executePayment">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="PayPalPmtMng">
+    <port name="PayPalPmtMngPort" binding="tns:PayPalPmtMngPortBinding">
+      <soap:address location="http://41.33.202.181:80/PS/PayPalPmtMng" />
+    </port>
+  </service>
+</definitions>

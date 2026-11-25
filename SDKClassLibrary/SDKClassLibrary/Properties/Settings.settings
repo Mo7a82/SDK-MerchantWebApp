@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SDKClassLibrary.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SDKClassLibrary_CreditCardPmtMngRef_CreditCardPmtMng" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://41.33.202.181:80/PS/CreditCardPmtMng</Value>
+    </Setting>
+    <Setting Name="SDKClassLibrary_SADADPmtMngRef_SADADPmtMng" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://41.33.202.181:80/PS/SADADPmtMng</Value>
+    </Setting>
+    <Setting Name="SDKClassLibrary_PayPalPmtMngRef_PayPalPmtMng" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://41.33.202.181:80/PS/PayPalPmtMng</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

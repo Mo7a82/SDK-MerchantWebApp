@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://www.ejada.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="SADADPmtMng" targetNamespace="http://www.ejada.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://41.33.202.181:80/PS/SADADPmtMng?xsd=1" namespace="http://www.ejada.com/" />
+    </xsd:schema>
+  </types>
+  <message name="billingInvUpload">
+    <part name="parameters" element="tns:BillingInvUploadRq" />
+  </message>
+  <message name="billingInvUploadResponse">
+    <part name="parameters" element="tns:BillingInvUploadRs" />
+  </message>
+  <message name="pmtUpload">
+    <part name="parameters" element="tns:SADADPmtUploadRq" />
+  </message>
+  <message name="pmtUploadResponse">
+    <part name="parameters" element="tns:SADADPmtUploadRs" />
+  </message>
+  <message name="billLoad">
+    <part name="parameters" element="tns:SADADBillLoadRq" />
+  </message>
+  <message name="billLoadResponse">
+    <part name="parameters" element="tns:SADADBillLoadRs" />
+  </message>
+  <portType name="SADADPmtMng">
+    <operation name="billingInvUpload">
+      <input wsam:Action="http://www.ejada.com/SADADPmtMng/billingInvUploadRequest" message="tns:billingInvUpload" />
+      <output wsam:Action="http://www.ejada.com/SADADPmtMng/billingInvUploadResponse" message="tns:billingInvUploadResponse" />
+    </operation>
+    <operation name="pmtUpload">
+      <input wsam:Action="http://www.ejada.com/SADADPmtMng/pmtUploadRequest" message="tns:pmtUpload" />
+      <output wsam:Action="http://www.ejada.com/SADADPmtMng/pmtUploadResponse" message="tns:pmtUploadResponse" />
+    </operation>
+    <operation name="billLoad">
+      <input wsam:Action="http://www.ejada.com/SADADPmtMng/billLoadRequest" message="tns:billLoad" />
+      <output wsam:Action="http://www.ejada.com/SADADPmtMng/billLoadResponse" message="tns:billLoadResponse" />
+    </operation>
+  </portType>
+  <binding name="SADADPmtMngPortBinding" type="tns:SADADPmtMng">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="billingInvUpload">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="pmtUpload">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="billLoad">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="SADADPmtMng">
+    <port name="SADADPmtMngPort" binding="tns:SADADPmtMngPortBinding">
+      <soap:address location="http://41.33.202.181:80/PS/SADADPmtMng" />
+    </port>
+  </service>
+</definitions>

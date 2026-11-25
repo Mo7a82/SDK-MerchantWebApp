@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://www.ejada.com/" targetNamespace="http://www.ejada.com/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="BillingInvUploadRq" type="tns:BillingInvUploadRq" />
+  <xs:element name="BillingInvUploadRs" type="tns:BillingInvUploadRs" />
+  <xs:element name="SADADBillLoadRq" type="tns:SADADBillLoadRq" />
+  <xs:element name="SADADBillLoadRs" type="tns:SADADBillLoadRs" />
+  <xs:element name="SADADPmtUploadRq" type="tns:SADADPmtUploadRq" />
+  <xs:element name="SADADPmtUploadRs" type="tns:SADADPmtUploadRs" />
+  <xs:element name="billingRqInfo" type="tns:billingRqInfo" />
+  <xs:element name="billingRsInfo" type="tns:billingRsInfo" />
+  <xs:element name="invoiceAdditionalInfo" type="tns:invoiceAdditionalInfo" />
+  <xs:element name="invoiceAdditionalInfoList" type="tns:invoiceAdditionalInfoList" />
+  <xs:element name="invoiceLineItemInfo" type="tns:invoiceLineItemInfo" />
+  <xs:element name="invoiceLineItemsList" type="tns:invoiceLineItemsList" />
+  <xs:element name="sadadBillLoadPmtInfo" type="tns:sadadBillLoadPmtInfo" />
+  <xs:element name="sadadPmtUploadPmtInfo" type="tns:sadadPmtUploadPmtInfo" />
+  <xs:complexType name="SADADPmtUploadRq">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfileCD" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="AcquireTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingAcct" type="xs:string" />
+      <xs:element minOccurs="0" name="TrnsAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PrcDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="PmtRefInfo" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerIDNo" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerIDTypeCD" type="xs:string" />
+      <xs:element minOccurs="0" name="BankCD" type="xs:string" />
+      <xs:element minOccurs="0" name="BankBranchNo" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtAccessChannel" type="xs:string" />
+      <xs:element minOccurs="0" name="District" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtMthdCD" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SADADPmtUploadRs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SADADPmtUploadPmtInfo" type="tns:sadadPmtUploadPmtInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sadadPmtUploadPmtInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="StatusCD" type="xs:string" />
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="TrnsID" type="xs:string" />
+      <xs:element minOccurs="0" name="IsPmtUploaded" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingRsInfo" type="tns:billingRsInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="billingRsInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+      <xs:element minOccurs="0" name="PeriodCD" type="xs:string" />
+      <xs:element minOccurs="0" name="IssueDate" type="xs:string" />
+      <xs:element minOccurs="0" name="DueDate" type="xs:string" />
+      <xs:element minOccurs="0" name="IsInvoiceFinalized" type="xs:string" />
+      <xs:element minOccurs="0" name="FinalBatchRunId" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtInitiator" type="xs:string" />
+      <xs:element minOccurs="0" name="NetAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Discount" type="xs:int" />
+      <xs:element minOccurs="0" name="AmountBF" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SADADBillLoadRq">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfileCD" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerName" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchOrderInfo" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchOrderAlias" type="xs:string" />
+      <xs:element minOccurs="0" name="IsPartialPayment" type="xs:string" />
+      <xs:element minOccurs="0" name="LangCD" type="xs:string" />
+      <xs:element minOccurs="0" name="DueAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MaxAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MinAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingAcct" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceRefInfo" type="xs:string" />
+      <xs:element minOccurs="0" name="DueDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ExpDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OpenDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CloseDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CustomerIDNo" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerIDTypeCD" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceSttsCD" type="xs:string" />
+      <xs:element minOccurs="0" name="BillCategory" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceAdditionalInfoList" type="tns:invoiceAdditionalInfoList" />
+      <xs:element minOccurs="0" name="BillingRqInfo" type="tns:billingRqInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="invoiceAdditionalInfoList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceAdditionalInfo" type="tns:invoiceAdditionalInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="invoiceAdditionalInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Amount" type="xs:string" />
+      <xs:element minOccurs="0" name="InfoCD" type="xs:string" />
+      <xs:element minOccurs="0" name="InfoType" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="billingRqInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="InvTypCD" type="xs:string" />
+      <xs:element minOccurs="0" name="SrvCD" type="xs:string" />
+      <xs:element minOccurs="0" name="CusId" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtRespId" type="xs:string" />
+      <xs:element minOccurs="0" name="StartDate" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="EndDate" type="xs:dateTime" />
+      <xs:element name="Discount" type="xs:int" />
+      <xs:element minOccurs="0" name="IsLumpSum" type="xs:string" />
+      <xs:element minOccurs="0" name="PmtInitiator" type="xs:string" />
+      <xs:element minOccurs="0" name="Notes" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceLineItemsList" type="tns:invoiceLineItemsList" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="invoiceLineItemsList">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="InvoiceLineItemInfo" type="tns:invoiceLineItemInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="invoiceLineItemInfo">
+    <xs:sequence>
+      <xs:element name="Quantity" type="xs:int" />
+      <xs:element minOccurs="0" name="Rate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Amount" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="SADADBillLoadRs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SADADBillLoadPmtInfo" type="tns:sadadBillLoadPmtInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="sadadBillLoadPmtInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="StatusCD" type="xs:string" />
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="TrnsID" type="xs:string" />
+      <xs:element minOccurs="0" name="IsBillUploaded" type="xs:string" />
+      <xs:element minOccurs="0" name="IsBillCancelled" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingRsInfo" type="tns:billingRsInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BillingInvUploadRq">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="RqUID" type="xs:string" />
+      <xs:element minOccurs="0" name="ProfileCD" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerName" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchTrnsRef" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchOrderInfo" type="xs:string" />
+      <xs:element minOccurs="0" name="MerchOrderAlias" type="xs:string" />
+      <xs:element minOccurs="0" name="IsPartialPayment" type="xs:string" />
+      <xs:element minOccurs="0" name="LangCD" type="xs:string" />
+      <xs:element minOccurs="0" name="DueAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MaxAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="MinAmount" type="xs:decimal" />
+      <xs:element minOccurs="0" name="InvoiceNo" type="xs:string" />
+      <xs:element minOccurs="0" name="BillingAcct" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceRefInfo" type="xs:string" />
+      <xs:element minOccurs="0" name="DueDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ExpDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OpenDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CloseDt" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="CustomerIDNo" type="xs:string" />
+      <xs:element minOccurs="0" name="CustomerIDTypeCD" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceSttsCD" type="xs:string" />
+      <xs:element minOccurs="0" name="BillCategory" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceAdditionalInfoList" type="tns:invoiceAdditionalInfoList" />
+      <xs:element minOccurs="0" name="BillingRqInfo" type="tns:billingRqInfo" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BillingInvUploadRs">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="SADADBillLoadPmtInfo" type="tns:sadadBillLoadPmtInfo" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

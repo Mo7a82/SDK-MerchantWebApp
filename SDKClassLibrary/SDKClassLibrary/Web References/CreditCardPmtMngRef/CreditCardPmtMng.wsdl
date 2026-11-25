@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://www.ejada.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="CreditCardPmtMng" targetNamespace="http://www.ejada.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://41.33.202.181:80/PS/CreditCardPmtMng?xsd=1" namespace="http://www.ejada.com/" />
+    </xsd:schema>
+  </types>
+  <message name="submitDigitalOrder">
+    <part name="parameters" element="tns:CCDigOrderRq" />
+  </message>
+  <message name="submitDigitalOrderResponse">
+    <part name="parameters" element="tns:CCDigOrderRs" />
+  </message>
+  <message name="validateReceipt">
+    <part name="parameters" element="tns:CCValidDigReceiptRq" />
+  </message>
+  <message name="validateReceiptResponse">
+    <part name="parameters" element="tns:CCValidDigReceiptRs" />
+  </message>
+  <message name="capture">
+    <part name="parameters" element="tns:CCCaptureRq" />
+  </message>
+  <message name="captureResponse">
+    <part name="parameters" element="tns:CCCaptureRs" />
+  </message>
+  <portType name="CreditCardPmtMng">
+    <operation name="submitDigitalOrder">
+      <input wsam:Action="http://www.ejada.com/CreditCardPmtMng/submitDigitalOrderRequest" message="tns:submitDigitalOrder" />
+      <output wsam:Action="http://www.ejada.com/CreditCardPmtMng/submitDigitalOrderResponse" message="tns:submitDigitalOrderResponse" />
+    </operation>
+    <operation name="validateReceipt">
+      <input wsam:Action="http://www.ejada.com/CreditCardPmtMng/validateReceiptRequest" message="tns:validateReceipt" />
+      <output wsam:Action="http://www.ejada.com/CreditCardPmtMng/validateReceiptResponse" message="tns:validateReceiptResponse" />
+    </operation>
+    <operation name="capture">
+      <input wsam:Action="http://www.ejada.com/CreditCardPmtMng/captureRequest" message="tns:capture" />
+      <output wsam:Action="http://www.ejada.com/CreditCardPmtMng/captureResponse" message="tns:captureResponse" />
+    </operation>
+  </portType>
+  <binding name="CreditCardPmtMngPortBinding" type="tns:CreditCardPmtMng">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="submitDigitalOrder">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="validateReceipt">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="capture">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="CreditCardPmtMng">
+    <port name="CreditCardPmtMngPort" binding="tns:CreditCardPmtMngPortBinding">
+      <soap:address location="http://41.33.202.181:80/PS/CreditCardPmtMng" />
+    </port>
+  </service>
+</definitions>
