@@ -1,8 +1,8 @@
 # SDK-MerchantWebApp
 
-A .NET client SDK and a test web application for the PayNow payment platform's merchant web services. A merchant system uses the SDK to take payments by credit card, through SADAD bills and with PayPal.
+A .NET client SDK and a test web application for the payment platform's merchant web services. A merchant system uses the SDK to take payments by credit card, through SADAD bills and with PayPal.
 
-The code dates from May 2018. It was written to show merchants how to integrate with PayNow, and to give testers a page for calling each service by hand and seeing the raw response.
+The code dates from May 2018. It was written to show merchants how to integrate with Payment gateway, and to give testers a page for calling each service by hand and seeing the raw response.
 
 ## What's in the repository
 
@@ -21,7 +21,7 @@ SDK-MerchantWebApp/
 │           ├── SADADPmtMngRef/
 │           └── PayPalPmtMngRef/
 └── MerchantWebApplication/          # ASP.NET Web Forms test harness
-    ├── MerchantDefaultWebForm.aspx  # Menu page ("PayNow Web Services")
+    ├── MerchantDefaultWebForm.aspx  # Menu page ("Payment Web Services")
     ├── CreditCardPmtMng/            # submitDigitalOrder, capture, validateReceipt pages
     ├── SADADPmtMng/                 # billLoad, pmtUpload, PaymentNotification pages
     └── PayPalPmtMng/                # createPayment, executePayment pages
@@ -29,7 +29,7 @@ SDK-MerchantWebApp/
 
 ## How it works
 
-PayNow exposes three SOAP services: `CreditCardPmtMng`, `SADADPmtMng` and `PayPalPmtMng`. Visual Studio generated proxy classes for them from their WSDL files, and those proxies live under `Web References`.
+The payment gateway exposes three SOAP services: `CreditCardPmtMng`, `SADADPmtMng` and `PayPalPmtMng`. Visual Studio generated proxy classes for them from their WSDL files, and those proxies live under `Web References`.
 
 `SDKProgram` wraps the proxies. Each method does four things:
 
@@ -72,7 +72,7 @@ The SADAD WSDL also defines `billingInvUpload`. The SDK doesn't wrap it yet.
 sequenceDiagram
     participant M as Merchant site
     participant S as SDK
-    participant P as PayNow
+    participant P as Payment gateway
     participant B as Bank page
     M->>S: submitDigitalOrder(order)
     S->>P: submitDigitalOrder
@@ -124,7 +124,7 @@ Each method returns `null` when the call fails and writes the exception message 
 - .NET Framework 2.0 targeting pack. Both projects target `v2.0`.
 - Microsoft Web Services Enhancements (WSE) 2.0 SP3. The `Microsoft.Web.Services2` 2.0.3.0 package is restored from `packages/`.
 - IIS Express. The web app runs at `http://localhost:52300/`.
-- Network access to a PayNow environment and a merchant account for it.
+- Network access to a payment gateway environment and a merchant account for it.
 
 ## Configuration
 
@@ -132,7 +132,7 @@ Endpoints are set in `SDKClassLibrary/SDKClassLibrary/App.config` under `applica
 
 ```xml
 <setting name="SDKClassLibrary_CreditCardPmtMngRef_CreditCardPmtMng" serializeAs="String">
-  <value>http://<paynow-host>/PS/CreditCardPmtMng</value>
+  <value>http://<paygateway-host>/PS/CreditCardPmtMng</value>
 </setting>
 ```
 
@@ -156,4 +156,4 @@ The code doesn't read those keys yet. The username and password are written dire
 
 ## Related work
 
-This SDK was built alongside the PayNow integration proposed for the MCI unified self-service portal. In that design, payments go from the portal through PayNow to the SADAD gateway and card acquirers.
+This SDK was built alongside the payment gateway integration proposed for the MCI unified self-service portal. In that design, payments go from the portal through payment gateway to the SADAD gateway and card acquirers.
